@@ -4,8 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.chitchat.databinding.ActivitySignInBinding;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -24,4 +29,5 @@ public class SignInActivity extends AppCompatActivity {
         signInBinding.tvSignInCreateNewAccount.setOnClickListener(v->
                 startActivity(new Intent(getApplicationContext(),SignUpActivity.class)));
     }
+
 }
