@@ -8,7 +8,9 @@
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/drawable/input_layout.xml" value="0.2" />
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/activity_main.xml" value="0.1490036231884058" />
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/activity_sign_in.xml" value="0.264" />
-        <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/activity_sign_up.xml" value="0.2" />
+        <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/activity_sign_up.xml" value="0.264" />
+        <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/dialog_pick_image.xml" value="0.264" />
+        <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/rv_images.xml" value="0.264" />
       </map>
     </option>
   </component>

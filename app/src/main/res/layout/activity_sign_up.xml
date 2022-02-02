@@ -41,6 +41,7 @@
                 app:riv_oval="true"/>
 
             <TextView
+                android:id="@+id/tvAddImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add Image"
@@ -54,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             android:ems="10"
-            android:elevation="@dimen/_2sdp"
+            android:elevation="@dimen/_5sdp"
             android:hint="Name"
             android:textColorHint="@color/white_smoke"
             android:background="@drawable/input_layout"
@@ -70,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             android:ems="10"
-            android:elevation="@dimen/_2sdp"
+            android:elevation="@dimen/_5sdp"
             android:hint="Email"
             android:textColorHint="@color/white_smoke"
             android:background="@drawable/input_layout"
@@ -86,7 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             android:ems="10"
-            android:elevation="@dimen/_2sdp"
+            android:elevation="@dimen/_5sdp"
             android:hint="Password"
             android:textColorHint="@color/white_smoke"
             android:background="@drawable/input_layout"
@@ -101,7 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             android:ems="10"
-            android:elevation="@dimen/_2sdp"
+            android:elevation="@dimen/_5sdp"
             android:hint="Confirm Password"
             android:textColorHint="@color/white_smoke"
             android:background="@drawable/input_layout"
@@ -112,19 +113,37 @@
             android:textSize="@dimen/_12ssp"
             android:inputType="textPassword"/>
 
-        <com.google.android.material.button.MaterialButton
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:id="@+id/buttonSignUp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16sdp"
-            android:backgroundTint="@color/bright_blue"
-            android:text="Sign Up"
-            app:elevation="@dimen/_5sdp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="@dimen/_13ssp"
-            app:cornerRadius="@dimen/_8sdp"
-            />
+            android:animateLayoutChanges="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:id="@+id/buttonSignUp"
+                android:backgroundTint="@color/bright_blue"
+                android:text="Sign Up"
+                app:elevation="@dimen/_5sdp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="@dimen/_13ssp"
+                app:cornerRadius="@dimen/_8sdp"
+                />
+
+            <ProgressBar
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:id="@+id/progressBar"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:visibility="invisible"
+                android:indeterminateTint="@color/bright_blue"/>
+
+        </FrameLayout>
+
+
 
         <TextView
             android:layout_width="wrap_content"
