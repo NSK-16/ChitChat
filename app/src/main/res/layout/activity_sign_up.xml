@@ -37,8 +37,14 @@
                 android:layout_height="@dimen/_80sdp"
                 android:id="@+id/ivProfilePicture"
                 android:background="@drawable/image_background"
+                android:backgroundTint="@color/light_grey"
                 android:scaleType="centerCrop"
-                app:riv_oval="true"/>
+                app:riv_border_width="@dimen/_2sdp"
+                app:riv_border_color="@color/white_smoke"
+                app:riv_mutate_background="true"
+                app:riv_oval="true"
+                android:forceDarkAllowed="false"
+                />
 
             <TextView
                 android:id="@+id/tvAddImage"

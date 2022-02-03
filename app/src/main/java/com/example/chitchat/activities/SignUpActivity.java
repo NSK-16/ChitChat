@@ -1,5 +1,6 @@
 package com.example.chitchat.activities;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,9 +20,10 @@ import android.widget.Toast;
 
 import com.example.chitchat.R;
 import com.example.chitchat.databinding.ActivitySignUpBinding;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
@@ -57,7 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
     {
         signUpBinding.tvSignIn.setOnClickListener(v->onBackPressed());
         signUpBinding.buttonSignUp.setOnClickListener(v->{
-            if(isDetailsValid())
+            if(isSignUpDetailsValid())
                 signUp();
         });
         signUpBinding.ivProfilePicture.setOnClickListener(v->{
@@ -74,24 +76,37 @@ public class SignUpActivity extends AppCompatActivity {
     {
         loading(true);
         mAuth = FirebaseAuth.getInstance();
-        mAuth.createUserWithEmailAndPassword(signUpBinding.etSignUpEmail.getText().toString().trim(),signUpBinding.etSignUpPassword.getText().toString().trim());
-        HashMap<String,Object> user = new HashMap<>();
-        user.put(Constants.KEY_NAME,signUpBinding.etSignUpName.getText().toString().trim());
-        user.put(Constants.KEY_EMAIL,signUpBinding.etSignUpEmail.getText().toString().trim());
-        user.put(Constants.KEY_IMAGE,encodedImage);
+        mAuth.createUserWithEmailAndPassword(signUpBinding.etSignUpEmail.getText().toString().trim(),signUpBinding.etSignUpPassword.getText().toString().trim())
+        .addOnCompleteListener(task -> {
+            if(task.isSuccessful())
+            {
+                HashMap<String,Object> user = new HashMap<>();
+                user.put(Constants.KEY_NAME,signUpBinding.etSignUpName.getText().toString().trim());
+                user.put(Constants.KEY_EMAIL,signUpBinding.etSignUpEmail.getText().toString().trim());
+                user.put(Constants.KEY_IMAGE,encodedImage);
 
-        db.collection(Constants.KEY_COLLECTION_USERS)
-                .add(user)
-                .addOnSuccessListener(documentReference -> {
-                    loading(false);
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                })
-                .addOnFailureListener(exception ->{
-                    loading(false);
-                    showToast(exception.getMessage());
-                });
+                db.collection(Constants.KEY_COLLECTION_USERS)
+                        .document(mAuth.getCurrentUser().getUid())
+                        .set(user)
+                        .addOnSuccessListener(documentReference -> {
+                            loading(false);
+                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                        })
+                        .addOnFailureListener(exception ->{
+                            loading(false);
+                            showToast(exception.getMessage());
+                        });
+            }
+            else
+            {
+                loading(false);
+                showToast("Failed to sign up!");
+            }
+
+        });
+
     }
 
     private String encodeImage(Bitmap bitmap)
@@ -128,7 +143,7 @@ public class SignUpActivity extends AppCompatActivity {
         signUpBinding.ivProfilePicture.setImageBitmap(bitmap);
         encodedImage = encodeImage(bitmap);
         signUpBinding.tvAddImage.setVisibility(View.GONE);
-        signUpBinding.ivProfilePicture.setBackgroundColor(Color.TRANSPARENT);
+        signUpBinding.ivProfilePicture.setBackgroundColor(Color.parseColor("#0096FF"));
         pickImageDialog.dismiss();
     }
 
@@ -147,7 +162,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-    private boolean isDetailsValid()
+    private boolean isSignUpDetailsValid()
     {
         if(encodedImage == null){
             showToast("Select an avatar");
@@ -177,7 +192,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         else if(signUpBinding.etSignUpPassword.getText().toString().trim().isEmpty())
         {
-            signUpBinding.etSignUpConfirmPassword.requestFocus();
+            signUpBinding.etSignUpPassword.requestFocus();
             showToast("Enter password");
             return false;
         }
