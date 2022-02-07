@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
@@ -31,10 +32,12 @@ import java.util.HashMap;
 
 import adapters.ImagesAdapter;
 import utilities.Constants;
+import utilities.PreferenceManager;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private ActivitySignUpBinding signUpBinding;
+    private PreferenceManager preferenceManager;
     private String encodedImage;
     private Dialog pickImageDialog;
     private static SignUpActivity INSTANCE;
@@ -45,6 +48,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         INSTANCE = this;
+        preferenceManager = new PreferenceManager(getApplicationContext());
         signUpBinding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(signUpBinding.getRoot());
         setListeners();
@@ -90,6 +94,9 @@ public class SignUpActivity extends AppCompatActivity {
                         .set(user)
                         .addOnSuccessListener(documentReference -> {
                             loading(false);
+                            preferenceManager.putString(Constants.KEY_NAME,signUpBinding.etSignUpName.getText().toString().trim());
+                            preferenceManager.putString(Constants.KEY_IMAGE,encodedImage);
+
                             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
@@ -115,7 +122,7 @@ public class SignUpActivity extends AppCompatActivity {
         int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
         Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth,previewHeight,false);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        previewBitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
+        previewBitmap.compress(Bitmap.CompressFormat.PNG,50,byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(bytes,Base64.DEFAULT);
     }
@@ -138,7 +145,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void pickImage(int imageId)
     {
-
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(),imageId);
         signUpBinding.ivProfilePicture.setImageBitmap(bitmap);
         encodedImage = encodeImage(bitmap);

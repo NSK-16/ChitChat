@@ -1,6 +1,5 @@
 package com.example.chitchat.activities;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,18 +9,27 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.chitchat.databinding.ActivitySignInBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import utilities.Constants;
+import utilities.PreferenceManager;
 
 
 public class SignInActivity extends AppCompatActivity {
 
     private ActivitySignInBinding signInBinding;
+    private PreferenceManager preferenceManager;
     private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        preferenceManager = new PreferenceManager(getApplicationContext());
 
         user= FirebaseAuth.getInstance().getCurrentUser();
         if(user!=null)
@@ -55,20 +63,27 @@ public class SignInActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         loading(true);
         mAuth.signInWithEmailAndPassword(signInBinding.etSignInEmail.getText().toString().trim(),signInBinding.etSignInPassword.getText().toString().trim())
-        .addOnCompleteListener(this, task -> {
-            if(task.isSuccessful())
-            {
-                loading(false);
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-            else
-            {
-                loading(false);
-                showToast("Failed to sign in!");
-            }
-        });
+                .addOnSuccessListener(authResult -> {
+                    loading(false);
+
+                    FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_USERS)
+                            .document(mAuth.getCurrentUser().getUid())
+                            .get()
+                            .addOnSuccessListener(documentSnapshot -> {
+                                preferenceManager.putString(Constants.KEY_NAME,documentSnapshot.getString(Constants.KEY_NAME));
+                                preferenceManager.putString(Constants.KEY_IMAGE,documentSnapshot.getString(Constants.KEY_IMAGE));
+                            })
+                            .addOnFailureListener(Throwable::getMessage);
+
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                })
+                .addOnFailureListener(e-> {
+                    loading(false);
+                    showToast("Unable to sign in!");
+                });
+
 
 
     }

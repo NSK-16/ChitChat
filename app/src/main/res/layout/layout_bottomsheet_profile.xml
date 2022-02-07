@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomSheetContainer"
+    android:background="@drawable/background_bottomsheet">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/bottomSheetPhoto"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:background="@drawable/image_background"
+        app:riv_border_width="@dimen/_2sdp"
+        app:riv_border_color="@color/white"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
+        app:riv_mutate_background="true"
+        android:forceDarkAllowed="false"
+        app:riv_oval="true" />
+
+    <TextView
+        android:id="@+id/bottomSheetUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:textSize="@dimen/_14ssp"
+        android:textColor="@color/white_smoke"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_below="@id/bottomSheetPhoto"
+        />
+
+    <TextView
+        android:id="@+id/bottomSheetUserEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/white_smoke"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_below="@id/bottomSheetUserName"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivSignOut"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_below="@id/bottomSheetUserEmail"
+        android:src="@drawable/ic_signout"
+        android:background="@drawable/background_icon"
+        android:backgroundTint="@color/lighter_grey"
+        android:padding="@dimen/_5sdp"
+        android:scaleType="centerCrop"
+        />
+
+</RelativeLayout>
