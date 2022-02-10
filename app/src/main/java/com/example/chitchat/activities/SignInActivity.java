@@ -1,26 +1,26 @@
 package com.example.chitchat.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.chitchat.databinding.ActivitySignInBinding;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import utilities.Constants;
 import utilities.PreferenceManager;
 
+interface MyCallBack{
+    void onSuccessCallIntent();
+}
 
-public class SignInActivity extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity{
 
     private ActivitySignInBinding signInBinding;
     private PreferenceManager preferenceManager;
@@ -64,20 +64,23 @@ public class SignInActivity extends AppCompatActivity {
         loading(true);
         mAuth.signInWithEmailAndPassword(signInBinding.etSignInEmail.getText().toString().trim(),signInBinding.etSignInPassword.getText().toString().trim())
                 .addOnSuccessListener(authResult -> {
-                    loading(false);
 
                     FirebaseFirestore.getInstance().collection(Constants.KEY_COLLECTION_USERS)
-                            .document(mAuth.getCurrentUser().getUid())
+                            .document(authResult.getUser().getUid())
                             .get()
                             .addOnSuccessListener(documentSnapshot -> {
-                                preferenceManager.putString(Constants.KEY_NAME,documentSnapshot.getString(Constants.KEY_NAME));
-                                preferenceManager.putString(Constants.KEY_IMAGE,documentSnapshot.getString(Constants.KEY_IMAGE));
-                            })
-                            .addOnFailureListener(Throwable::getMessage);
+                                SignInActivity.this.loading(false);
+                                preferenceManager.putString(Constants.KEY_NAME, documentSnapshot.getString(Constants.KEY_NAME));
+                                preferenceManager.putString(Constants.KEY_IMAGE, documentSnapshot.getString(Constants.KEY_IMAGE));
+                                MyCallBack myCallBack = () -> {
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    SignInActivity.this.startActivity(intent);
+                                };
+                                myCallBack.onSuccessCallIntent();
 
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                            });
+
                 })
                 .addOnFailureListener(e-> {
                     loading(false);
@@ -131,6 +134,5 @@ public class SignInActivity extends AppCompatActivity {
             signInBinding.progressBar.setVisibility(View.INVISIBLE);
         }
     }
-
 
 }
