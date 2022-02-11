@@ -1,6 +1,5 @@
 package adapters;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,7 @@ public class ImagesAdapter extends RecyclerView.Adapter<ImagesAdapter.ImagesView
     @NonNull
     @Override
     public ImagesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View imageItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_images,parent,false);
+        View imageItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_container_images,parent,false);
         return new ImagesViewHolder(imageItem);
     }
 

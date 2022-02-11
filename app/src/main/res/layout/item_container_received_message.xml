@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/light_grey"
+    android:padding="@dimen/_4sdp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:id="@+id/rivReceiverImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tvReceivedMessage"
+        android:background="@drawable/image_background"
+        app:riv_oval="true"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvReceivedMessage"
+        android:background="@drawable/background_received_message"
+        app:layout_constraintStart_toEndOf="@id/rivReceiverImage"
+        app:layout_constraintTop_toTopOf = "parent"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        app:layout_constraintWidth_percent="0.75"
+        android:textColor="@color/white_smoke"
+        android:textSize="@dimen/_13ssp"
+        android:padding="@dimen/_12sdp"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvDateTime"
+        app:layout_constraintTop_toBottomOf="@id/tvReceivedMessage"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:textColor="@color/white_smoke"
+        android:textSize="@dimen/_10ssp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

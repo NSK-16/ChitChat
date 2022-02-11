@@ -4,8 +4,8 @@ package com.example.chitchat.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 
@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             bottomSheetDialog.setContentView(bottomSheetProfileBinding.getRoot());
             loadUserDetails();
         });
+
+        mainBinding.fabNewChat.setOnClickListener(view-> startActivity(new Intent(getApplicationContext(),UsersActivity.class)));
 
     }
 
