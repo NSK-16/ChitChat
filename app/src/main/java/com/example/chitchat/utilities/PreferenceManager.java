@@ -1,4 +1,4 @@
-package utilities;
+package com.example.chitchat.utilities;
 
 import android.content.Context;
 import android.content.SharedPreferences;

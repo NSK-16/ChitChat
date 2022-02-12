@@ -1,32 +1,36 @@
-package adapters;
+package com.example.chitchat.adapters;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.chitchat.databinding.RvUsersListBinding;
+import com.example.chitchat.databinding.ItemContainerUsersBinding;
 
 import java.util.List;
 
-import models.Users;
+import com.example.chitchat.listeners.UserListener;
+import com.example.chitchat.models.Users;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder> {
 
-    List<Users> allUsers;
+    private List<Users> allUsers;
+    private UserListener userListener;
 
-    public UsersAdapter(List<Users> users) {
+    public UsersAdapter(List<Users> users,UserListener userListener) {
         allUsers = users;
+        this.userListener = userListener;
     }
 
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RvUsersListBinding binding = RvUsersListBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
+        ItemContainerUsersBinding binding = ItemContainerUsersBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
         return new UserViewHolder(binding);
     }
 
@@ -40,19 +44,21 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         holder.setUserData(allUsers.get(position));
     }
 
-    static class UserViewHolder extends RecyclerView.ViewHolder{
+    class UserViewHolder extends RecyclerView.ViewHolder{
 
-        RvUsersListBinding usersListBinding;
-        public UserViewHolder(RvUsersListBinding usersListBinding) {
-            super(usersListBinding.getRoot());
-            this.usersListBinding = usersListBinding;
+        ItemContainerUsersBinding usersBinding;
+
+        public UserViewHolder(ItemContainerUsersBinding usersBinding) {
+            super(usersBinding.getRoot());
+            this.usersBinding = usersBinding;
         }
 
         public void setUserData(Users user)
         {
-            usersListBinding.tvUserName.setText(user.name);
-            usersListBinding.tvEmail.setText(user.email);
-            usersListBinding.rivUserPhoto.setImageBitmap(getUserImage(user.image));
+            usersBinding.tvUserName.setText(user.name);
+            usersBinding.tvEmail.setText(user.email);
+            usersBinding.rivUserPhoto.setImageBitmap(getUserImage(user.image));
+            usersBinding.getRoot().setOnClickListener(view -> userListener.onUserClickListener(user));
         }
 
         public Bitmap getUserImage(String encodedImage)

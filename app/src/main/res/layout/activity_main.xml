@@ -39,6 +39,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:animateLayoutChanges="true"
         android:layout_marginTop="@dimen/_16sdp"
         android:background="@drawable/users_content_background"
         app:layout_constraintTop_toBottomOf="@id/rivProfilePhoto"

@@ -13,7 +13,8 @@
         android:theme="@style/Theme.ChitChat">
         <activity
             android:name=".activities.ChatActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".activities.UsersActivity"
             android:exported="false" />
@@ -35,7 +36,7 @@
             android:name=".activities.MainActivity"
             android:exported="false" />
 
-        <service android:name="firebase.MessagingService">
+        <service android:name=".firebase.MessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

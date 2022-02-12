@@ -13,8 +13,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import utilities.Constants;
-import utilities.PreferenceManager;
+import com.example.chitchat.utilities.Constants;
+import com.example.chitchat.utilities.PreferenceManager;
 
 interface MyCallBack{
     void onSuccessCallIntent();

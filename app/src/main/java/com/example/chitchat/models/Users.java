@@ -1,5 +1,7 @@
-package models;
+package com.example.chitchat.models;
 
-public class Users {
+import java.io.Serializable;
+
+public class Users implements Serializable {
     public String name,email,token,image;
 }

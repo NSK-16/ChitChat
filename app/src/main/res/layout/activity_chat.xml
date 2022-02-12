@@ -13,8 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/chatBackground"
+        android:layout_marginTop="@dimen/_16sdp"
         android:background="@drawable/chat_content_background"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivChatBack"
         app:layout_constraintBottom_toTopOf="@id/layoutSend"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,18 +61,19 @@
         android:maxLines="1"
         android:textSize="@dimen/_16sdp"/>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/rvChat"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivChatBack"
+        app:layout_constraintTop_toTopOf="@id/chatBackground"
         app:layout_constraintBottom_toBottomOf="@id/chatBackground"
         android:clipToPadding="false"
         android:padding="@dimen/_20sdp"
         android:overScrollMode="never"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <ProgressBar
         android:layout_width="@dimen/_24sdp"
@@ -114,6 +116,7 @@
         app:layout_constraintTop_toTopOf="@id/layoutSend"
         android:paddingStart="@dimen/_16sdp"
         android:importantForAutofill="no"
+        android:inputType="text"
         android:paddingEnd="@dimen/_16sdp"
         android:layout_marginEnd="@dimen/_8sdp"
         android:layout_marginStart="@dimen/_16sdp"

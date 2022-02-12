@@ -1,6 +1,5 @@
-package firebase;
+package com.example.chitchat.firebase;
 
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 

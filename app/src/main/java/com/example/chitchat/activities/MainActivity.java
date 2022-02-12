@@ -4,7 +4,6 @@ package com.example.chitchat.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -25,8 +24,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 
-import utilities.Constants;
-import utilities.PreferenceManager;
+import com.example.chitchat.utilities.Constants;
+import com.example.chitchat.utilities.PreferenceManager;
 
 public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener{
 
