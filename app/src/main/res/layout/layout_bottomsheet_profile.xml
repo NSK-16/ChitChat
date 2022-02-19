@@ -42,7 +42,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_16sdp"
         android:textSize="@dimen/_12ssp"
-        android:textColor="@color/white_smoke"
+        android:textColor="@color/light_text"
         android:gravity="center"
         android:ellipsize="end"
         android:maxLines="1"

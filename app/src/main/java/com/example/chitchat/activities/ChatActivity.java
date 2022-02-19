@@ -1,16 +1,13 @@
 package com.example.chitchat.activities;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Patterns;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chitchat.adapters.ChatsAdapter;
 import com.example.chitchat.databinding.ActivityChatBinding;
@@ -18,8 +15,13 @@ import com.example.chitchat.models.ChatMessage;
 import com.example.chitchat.models.Users;
 import com.example.chitchat.utilities.Constants;
 import com.example.chitchat.utilities.PreferenceManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -42,6 +44,7 @@ public class ChatActivity extends AppCompatActivity {
     Bitmap bitmap;
     PreferenceManager preferenceManager;
     FirebaseFirestore db;
+    String conversationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +114,8 @@ public class ChatActivity extends AppCompatActivity {
             chatBinding.rvChat.setVisibility(View.VISIBLE);
         }
         chatBinding.chatProgressBar.setVisibility(View.GONE);
+        if(conversationId == null)
+            checkForConversation();
     };
     private void setBitmap()
     {
@@ -130,14 +135,31 @@ public class ChatActivity extends AppCompatActivity {
 
     private void sendMessage()
     {
-        if(!chatBinding.etMessage.getText().toString().equals("") && chatBinding.etMessage.getText()!=null)
+        if(!chatBinding.etMessage.getText().toString().trim().equals("") && chatBinding.etMessage.getText()!=null)
         {
             HashMap<String, Object> message = new HashMap<>();
             message.put(Constants.KEY_SENDER_ID, senderId);
             message.put(Constants.KEY_RECEIVER_ID,receiverUser.id);
             message.put(Constants.KEY_TIMESTAMP,new Date());
-            message.put(Constants.KEY_MESSAGE,chatBinding.etMessage.getText().toString());
+            message.put(Constants.KEY_MESSAGE,chatBinding.etMessage.getText().toString().trim());
             db.collection(Constants.KEY_COLLECTION_CHATS).add(message);
+
+            if(conversationId != null)
+                updateConversation(chatBinding.etMessage.getText().toString().trim());
+            else
+            {
+                HashMap<String,Object> conversation = new HashMap<>();
+                conversation.put(Constants.KEY_SENDER_ID,senderId);
+                conversation.put(Constants.KEY_SENDER_NAME,preferenceManager.getString(Constants.KEY_NAME));
+                conversation.put(Constants.KEY_SENDER_IMAGE,preferenceManager.getString(Constants.KEY_IMAGE));
+                conversation.put(Constants.KEY_RECEIVER_ID,receiverUser.id);
+                conversation.put(Constants.KEY_RECEIVER_NAME,receiverUser.name);
+                conversation.put(Constants.KEY_RECEIVER_IMAGE,receiverUser.image);
+                conversation.put(Constants.KEY_TIMESTAMP,new Date());
+                conversation.put(Constants.KEY_LAST_MESSAGE,chatBinding.etMessage.getText().toString().trim());
+                addConversation(conversation);
+            }
+
             chatBinding.etMessage.setText(null);
         }
 
@@ -146,5 +168,43 @@ public class ChatActivity extends AppCompatActivity {
     private String getFormattedDateTime(Date date)
     {
         return new SimpleDateFormat("dd MMM yyyy -hh:mm a", Locale.getDefault()).format(date);
+    }
+
+    private void checkForConversation()
+    {
+        if(!allChatMessages.isEmpty())
+        {
+            fetchConversations(senderId,receiverUser.id);
+            fetchConversations(receiverUser.id, senderId);
+        }
+    }
+
+    private void fetchConversations(String senderId, String receiverId)
+    {
+        db.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .whereEqualTo(Constants.KEY_SENDER_ID,senderId)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID,receiverId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()  && task.getResult()!=null && task.getResult().getDocuments().size() > 0)
+                    {
+                        DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                        conversationId = documentSnapshot.getId();
+                    }
+                });
+    }
+
+    private void addConversation(HashMap<String,Object> conversation)
+    {
+        db.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .add(conversation)
+                .addOnSuccessListener(documentReference -> conversationId = documentReference.getId());
+    }
+
+    private void updateConversation(String message)
+    {
+        db.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
+                .document(conversationId)
+                .update(Constants.KEY_LAST_MESSAGE,message,Constants.KEY_TIMESTAMP,new Date());
     }
 }
