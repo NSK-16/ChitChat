@@ -71,9 +71,14 @@
         app:layout_constraintTop_toTopOf="@id/chatBackground"
         app:layout_constraintBottom_toBottomOf="@id/chatBackground"
         android:clipToPadding="false"
-        android:padding="@dimen/_20sdp"
+        android:paddingTop="@dimen/_20sdp"
+        android:paddingBottom="@dimen/_20sdp"
+        android:paddingStart="@dimen/_8sdp"
+        android:paddingEnd="@dimen/_8sdp"
         android:overScrollMode="never"
-        android:visibility="visible"/>
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:stackFromEnd="true"
+        android:visibility="gone"/>
 
     <ProgressBar
         android:layout_width="@dimen/_24sdp"
@@ -120,7 +125,7 @@
         android:paddingEnd="@dimen/_16sdp"
         android:layout_marginEnd="@dimen/_8sdp"
         android:layout_marginStart="@dimen/_16sdp"
-        android:textColorHint="@color/white_smoke"
+        android:textColorHint="@color/light_text"
         android:textColor="@color/white_smoke"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

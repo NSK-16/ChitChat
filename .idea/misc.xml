@@ -10,6 +10,7 @@
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/drawable/background_received_message.xml" value="0.2" />
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/drawable/background_sent_message.xml" value="0.2" />
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/drawable/chat_content_background.xml" value="0.21822916666666667" />
+        <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/drawable/chat_input.xml" value="0.21822916666666667" />
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/drawable/chat_send.xml" value="0.264" />
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/drawable/content_background.xml" value="0.2" />
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/drawable/ic_back.xml" value="0.21822916666666667" />
@@ -26,13 +27,15 @@
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/activity_users.xml" value="0.264" />
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/dialog_pick_image.xml" value="0.264" />
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/item_container_chat.xml" value="0.264" />
-        <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/item_container_received_message.xml" value="0.19791666666666666" />
+        <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/item_container_received_message.xml" value="0.264" />
+        <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/item_container_sent_message.xml" value="0.264" />
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/item_container_users.xml" value="0.19791666666666666" />
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/layout_bottomsheet_profile.xml" value="0.264" />
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/layout_content_background.xml" value="0.19791666666666666" />
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/rv_images.xml" value="0.264" />
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/layout/rv_users_list.xml" value="0.264" />
         <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2" />
+        <entry key="..\:/Courses/Android_Development/Projects/ChitChat/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.21822916666666667" />
       </map>
     </option>
   </component>

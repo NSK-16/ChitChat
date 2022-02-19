@@ -2,21 +2,27 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_8sdp"
     android:padding="@dimen/_4sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/light_grey">
 
     <TextView
+        android:id="@+id/tvSentMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/tvSentMessage"
         android:background="@drawable/background_sent_message"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.8"
+        android:forceDarkAllowed="false"
+        android:paddingStart="@dimen/_12sdp"
+        android:paddingTop="@dimen/_8sdp"
+        android:paddingEnd="@dimen/_12sdp"
+        android:paddingBottom="@dimen/_8sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_13ssp"
-        android:padding="@dimen/_12sdp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="wrap"
+        app:layout_constraintWidth_percent="0.8" />
 
     <TextView
         android:layout_width="0dp"
@@ -25,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvSentMessage"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="@dimen/_4sdp"
-        android:textColor="@color/white_smoke"
-        android:textSize="@dimen/_10sdp"/>
+        android:textColor="@color/light_text"
+        android:textSize="@dimen/_8sdp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

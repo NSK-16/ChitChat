@@ -53,7 +53,7 @@
                 android:text="Add Image"
                 android:layout_gravity="center"
                 android:textSize="@dimen/_10ssp"
-                android:textColor="@color/white_smoke"/>
+                android:textColor="@color/light_text"/>
         </FrameLayout>
 
         <EditText
@@ -63,7 +63,7 @@
             android:ems="10"
             android:elevation="@dimen/_5sdp"
             android:hint="Name"
-            android:textColorHint="@color/white_smoke"
+            android:textColorHint="@color/light_text"
             android:background="@drawable/input_layout"
             android:layout_marginTop="@dimen/_30sdp"
             android:paddingStart="@dimen/_16sdp"
@@ -79,7 +79,7 @@
             android:ems="10"
             android:elevation="@dimen/_5sdp"
             android:hint="Email"
-            android:textColorHint="@color/white_smoke"
+            android:textColorHint="@color/light_text"
             android:background="@drawable/input_layout"
             android:layout_marginTop="@dimen/_16sdp"
             android:paddingStart="@dimen/_16sdp"
@@ -95,7 +95,7 @@
             android:ems="10"
             android:elevation="@dimen/_5sdp"
             android:hint="Password"
-            android:textColorHint="@color/white_smoke"
+            android:textColorHint="@color/light_text"
             android:background="@drawable/input_layout"
             android:layout_marginTop="@dimen/_16sdp"
             android:paddingStart="@dimen/_16sdp"
@@ -110,7 +110,7 @@
             android:ems="10"
             android:elevation="@dimen/_5sdp"
             android:hint="Confirm Password"
-            android:textColorHint="@color/white_smoke"
+            android:textColorHint="@color/light_text"
             android:background="@drawable/input_layout"
             android:layout_marginTop="@dimen/_16sdp"
             android:paddingStart="@dimen/_16sdp"

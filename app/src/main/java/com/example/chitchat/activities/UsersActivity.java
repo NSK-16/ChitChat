@@ -7,8 +7,11 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.chitchat.adapters.UsersAdapter;
 import com.example.chitchat.databinding.ActivityUsersBinding;
 import com.example.chitchat.listeners.UserListener;
+import com.example.chitchat.models.Users;
+import com.example.chitchat.utilities.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -16,22 +19,15 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.chitchat.adapters.UsersAdapter;
-import com.example.chitchat.models.Users;
-import com.example.chitchat.utilities.Constants;
-import com.example.chitchat.utilities.PreferenceManager;
-
 public class UsersActivity extends AppCompatActivity implements UserListener {
 
     private ActivityUsersBinding usersBinding;
-    private PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         usersBinding = ActivityUsersBinding.inflate(getLayoutInflater());
         setContentView(usersBinding.getRoot());
-        preferenceManager = new PreferenceManager(getApplicationContext());
         setListeners();
         getUsers();
     }
@@ -60,7 +56,7 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
                         user.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
                         user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
                         user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-
+                        user.id = queryDocumentSnapshot.getId();
                         users.add(user);
                     }
 
