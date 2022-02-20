@@ -11,7 +11,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chitchat.R;
 import com.example.chitchat.adapters.RecentConversationsAdapter;
@@ -38,7 +37,7 @@ import java.util.List;
 import com.example.chitchat.utilities.Constants;
 import com.example.chitchat.utilities.PreferenceManager;
 
-public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, ConversationListener {
+public class MainActivity extends AvailabilityActivity implements FirebaseAuth.AuthStateListener, ConversationListener {
 
     private ActivityMainBinding mainBinding;
     private PreferenceManager preferenceManager;

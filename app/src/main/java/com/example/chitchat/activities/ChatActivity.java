@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+
+import androidx.annotation.Nullable;
 
 import com.example.chitchat.adapters.ChatsAdapter;
 import com.example.chitchat.databinding.ActivityChatBinding;
@@ -15,15 +15,12 @@ import com.example.chitchat.models.ChatMessage;
 import com.example.chitchat.models.Users;
 import com.example.chitchat.utilities.Constants;
 import com.example.chitchat.utilities.PreferenceManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
@@ -33,8 +30,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AvailabilityActivity {
 
     ActivityChatBinding chatBinding;
     Users receiverUser;
@@ -45,6 +43,7 @@ public class ChatActivity extends AppCompatActivity {
     PreferenceManager preferenceManager;
     FirebaseFirestore db;
     String conversationId;
+    boolean isReceiverAvailable = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +116,36 @@ public class ChatActivity extends AppCompatActivity {
         if(conversationId == null)
             checkForConversation();
     };
+
+    private void listenForReceiverAvailability()
+    {
+        db.collection(Constants.KEY_COLLECTION_USERS)
+                .document(receiverUser.id)
+                .addSnapshotListener(ChatActivity.this, (value, error) -> {
+                    if(error!=null)
+                        return;
+
+                    if(value!=null)
+                    {
+                        if (value.getLong(Constants.KEY_AVAILABILITY) != null) {
+                            int availability = Objects.requireNonNull(value.getLong(Constants.KEY_AVAILABILITY)).intValue();
+                            isReceiverAvailable = availability == 1;
+                        }
+                    }
+                    if(isReceiverAvailable)
+                    {
+                        chatBinding.ivOnline.setVisibility(View.VISIBLE);
+                        chatBinding.tvOnline.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        chatBinding.ivOnline.setVisibility(View.GONE);
+                        chatBinding.tvOnline.setVisibility(View.GONE);
+                    }
+
+                });
+
+    }
+
     private void setBitmap()
     {
         byte[] bytes = Base64.decode(receiverUser.image, Base64.DEFAULT);
@@ -206,5 +235,11 @@ public class ChatActivity extends AppCompatActivity {
         db.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
                 .document(conversationId)
                 .update(Constants.KEY_LAST_MESSAGE,message,Constants.KEY_TIMESTAMP,new Date());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        listenForReceiverAvailability();
     }
 }

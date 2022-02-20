@@ -61,6 +61,29 @@
         android:maxLines="1"
         android:textSize="@dimen/_16sdp"/>
 
+    <ImageView
+        android:layout_width="@dimen/_8sdp"
+        android:layout_height="@dimen/_8sdp"
+        android:id="@+id/ivOnline"
+        app:layout_constraintBottom_toBottomOf="@id/tvOnline"
+        app:layout_constraintEnd_toStartOf="@id/tvOnline"
+        app:layout_constraintTop_toTopOf="@id/tvOnline"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:src="@drawable/ic_online"
+        android:visibility="gone"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvOnline"
+        app:layout_constraintTop_toBottomOf="@id/tvReceiverName"
+        app:layout_constraintEnd_toStartOf="@id/ivInfo"
+        app:layout_constraintBottom_toTopOf="@id/chatBackground"
+        app:layout_constraintStart_toEndOf="@id/ivChatBack"
+        android:text="Online"
+        android:textSize="@dimen/_10sdp"
+        android:textColor="@color/light_text"
+        android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
