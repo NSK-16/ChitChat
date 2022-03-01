@@ -11,8 +11,8 @@ public class RetrofitClient {
     {
         if(retrofit == null)
         {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://fcm.googleapis.com/fcm/")
+            retrofit = new Retrofit.Builder()
+                    .baseUrl("https://fcm.googleapis.com/")
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .build();
         }

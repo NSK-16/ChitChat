@@ -2,6 +2,8 @@ package com.example.chitchat.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +23,8 @@ import java.util.List;
 public class UsersActivity extends AvailabilityActivity implements UserListener {
 
     private ActivityUsersBinding usersBinding;
+    List<Users> users;
+    UsersAdapter usersAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,7 @@ public class UsersActivity extends AvailabilityActivity implements UserListener 
         usersBinding.ivSelectUserBackButton.setOnClickListener(view-> onBackPressed());
     }
 
+
     private void getUsers()
     {
         loading(true);
@@ -44,7 +49,7 @@ public class UsersActivity extends AvailabilityActivity implements UserListener 
                 .addOnSuccessListener(documentSnapshots -> {
                     loading(false);
                     String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    List<Users> users = new ArrayList<>();
+                    users = new ArrayList<>();
                     for(QueryDocumentSnapshot queryDocumentSnapshot: documentSnapshots)
                     {
                         if(queryDocumentSnapshot.getId().equals(currentUserId))
@@ -63,7 +68,7 @@ public class UsersActivity extends AvailabilityActivity implements UserListener 
                         showErrorMessage();
                     else
                     {
-                        UsersAdapter usersAdapter = new UsersAdapter(users, this);
+                        usersAdapter = new UsersAdapter(users, this);
                         usersBinding.rvAllUsers.setLayoutManager(new LinearLayoutManager(this));
                         usersBinding.rvAllUsers.setAdapter(usersAdapter);
                         usersBinding.rvAllUsers.setVisibility(View.VISIBLE);

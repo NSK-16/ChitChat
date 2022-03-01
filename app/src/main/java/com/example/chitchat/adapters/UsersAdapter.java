@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chitchat.databinding.ItemContainerUsersBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.chitchat.listeners.UserListener;
@@ -43,6 +44,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         holder.setUserData(allUsers.get(position));
     }
+
 
     class UserViewHolder extends RecyclerView.ViewHolder{
 

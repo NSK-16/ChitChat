@@ -44,6 +44,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -51,7 +52,8 @@
             android:clipToPadding="false"
             android:overScrollMode="never"
             android:padding="@dimen/_20sdp"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
+
 
         <ProgressBar
             android:layout_width="@dimen/_24sdp"

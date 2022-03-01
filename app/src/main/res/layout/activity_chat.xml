@@ -33,27 +33,16 @@
         android:layout_marginEnd="@dimen/_8sdp"
         app:tint="@color/bright_blue"/>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:id="@+id/ivInfo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/ivChatBack"
-        app:layout_constraintBottom_toBottomOf="@id/ivChatBack"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:padding="@dimen/_4sdp"
-        app:srcCompat="@drawable/ic_info"/>
-
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/tvReceiverName"
         app:layout_constraintStart_toEndOf="@id/ivChatBack"
         app:layout_constraintTop_toTopOf="@id/ivChatBack"
-        app:layout_constraintEnd_toStartOf="@id/ivInfo"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/ivChatBack"
         android:layout_marginStart="@dimen/_8sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_38sdp"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:gravity="center"
@@ -61,29 +50,37 @@
         android:maxLines="1"
         android:textSize="@dimen/_16sdp"/>
 
-    <ImageView
-        android:layout_width="@dimen/_8sdp"
-        android:layout_height="@dimen/_8sdp"
-        android:id="@+id/ivOnline"
-        app:layout_constraintBottom_toBottomOf="@id/tvOnline"
-        app:layout_constraintEnd_toStartOf="@id/tvOnline"
-        app:layout_constraintTop_toTopOf="@id/tvOnline"
-        android:layout_marginEnd="@dimen/_5sdp"
-        android:src="@drawable/ic_online"
-        android:visibility="gone"/>
-
-    <TextView
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvOnline"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/onlineStatus"
         app:layout_constraintTop_toBottomOf="@id/tvReceiverName"
-        app:layout_constraintEnd_toStartOf="@id/ivInfo"
-        app:layout_constraintBottom_toTopOf="@id/chatBackground"
-        app:layout_constraintStart_toEndOf="@id/ivChatBack"
-        android:text="Online"
-        android:textSize="@dimen/_10sdp"
-        android:textColor="@color/light_text"
-        android:visibility="gone"/>
+        app:layout_constraintBottom_toTopOf="@id/chatBackground">
+
+        <ImageView
+            android:layout_width="@dimen/_8sdp"
+            android:layout_height="@dimen/_8sdp"
+            android:id="@+id/ivOnline"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:src="@drawable/ic_online"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvOnline"
+            android:text="Online"
+            android:textSize="@dimen/_10sdp"
+            android:textColor="@color/light_text"
+            android:layout_toEndOf="@id/ivOnline"
+            android:layout_centerVertical="true"
+            android:layout_alignBaseline="@id/ivOnline"/>
+    </RelativeLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

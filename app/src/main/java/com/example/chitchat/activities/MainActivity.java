@@ -212,6 +212,7 @@ public class MainActivity extends AvailabilityActivity implements FirebaseAuth.A
 
     private void updateToken(String token)
     {
+        preferenceManager.putString(Constants.KEY_FCM_TOKEN,token);
         DocumentReference documentReference = db.collection(Constants.KEY_COLLECTION_USERS)
                 .document(mAuth.getCurrentUser().getUid());
         documentReference.update(Constants.KEY_FCM_TOKEN,token)

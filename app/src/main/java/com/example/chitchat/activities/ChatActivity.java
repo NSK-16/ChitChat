@@ -7,14 +7,20 @@ import android.util.Base64;
 import android.view.View;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.chitchat.R;
 import com.example.chitchat.adapters.ChatsAdapter;
+import com.example.chitchat.apiUtilities.ApiService;
+import com.example.chitchat.apiUtilities.RetrofitClient;
 import com.example.chitchat.databinding.ActivityChatBinding;
+import com.example.chitchat.databinding.LayoutBottomsheetProfileBinding;
 import com.example.chitchat.models.ChatMessage;
 import com.example.chitchat.models.Users;
 import com.example.chitchat.utilities.Constants;
 import com.example.chitchat.utilities.PreferenceManager;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -22,6 +28,10 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +41,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatActivity extends AvailabilityActivity {
 
@@ -131,15 +145,22 @@ public class ChatActivity extends AvailabilityActivity {
                             int availability = Objects.requireNonNull(value.getLong(Constants.KEY_AVAILABILITY)).intValue();
                             isReceiverAvailable = availability == 1;
                         }
+                        receiverUser.token = value.getString(Constants.KEY_FCM_TOKEN);
+
+                        if(receiverUser.image == null)
+                        {
+                            receiverUser.image = value.getString(Constants.KEY_IMAGE);
+                            setBitmap();
+                            chatsAdapter.setReceiverImage(bitmap);
+                            chatsAdapter.notifyDataSetChanged();
+                        }
                     }
                     if(isReceiverAvailable)
                     {
-                        chatBinding.ivOnline.setVisibility(View.VISIBLE);
-                        chatBinding.tvOnline.setVisibility(View.VISIBLE);
+                        chatBinding.onlineStatus.setVisibility(View.VISIBLE);
                     }
                     else {
-                        chatBinding.ivOnline.setVisibility(View.GONE);
-                        chatBinding.tvOnline.setVisibility(View.GONE);
+                        chatBinding.onlineStatus.setVisibility(View.GONE);
                     }
 
                 });
@@ -148,8 +169,11 @@ public class ChatActivity extends AvailabilityActivity {
 
     private void setBitmap()
     {
-        byte[] bytes = Base64.decode(receiverUser.image, Base64.DEFAULT);
-        bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+        if(receiverUser.image!=null)
+        {
+            byte[] bytes = Base64.decode(receiverUser.image, Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+        }
     }
 
     private void setListeners() {
@@ -189,6 +213,28 @@ public class ChatActivity extends AvailabilityActivity {
                 addConversation(conversation);
             }
 
+            if(!isReceiverAvailable)
+            {
+                try {
+                    JSONArray tokens = new JSONArray();
+                    tokens.put(receiverUser.token);
+
+                    JSONObject data = new JSONObject();
+                    data.put("userId",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    data.put(Constants.KEY_NAME,preferenceManager.getString(Constants.KEY_NAME));
+                    data.put(Constants.KEY_FCM_TOKEN,preferenceManager.getString(Constants.KEY_FCM_TOKEN));
+                    data.put(Constants.KEY_MESSAGE,chatBinding.etMessage.getText().toString().trim());
+
+                    JSONObject body = new JSONObject();
+                    body.put(Constants.REMOTE_MSG_DATA,data);
+                    body.put(Constants.REMOTE_MSG_REGISTRATION_IDS,tokens);
+
+                    sendNotification(body.toString());
+                }
+                catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
             chatBinding.etMessage.setText(null);
         }
 
@@ -235,6 +281,40 @@ public class ChatActivity extends AvailabilityActivity {
         db.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
                 .document(conversationId)
                 .update(Constants.KEY_LAST_MESSAGE,message,Constants.KEY_TIMESTAMP,new Date());
+    }
+
+    private void sendNotification(String messageBody)
+    {
+        RetrofitClient.getInstance().create(ApiService.class).sendMessage(
+                Constants.getRemoteMsgHeaders(),
+                messageBody
+        ).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                if(response.isSuccessful())
+                {
+                    if (response.body()!=null)
+                    {
+                        try
+                        {   JSONObject responseJson = new JSONObject();
+                            JSONArray results = responseJson.getJSONArray("results");
+                            if(responseJson.getInt("failure") == 1 )
+                            {
+                                JSONObject error = new JSONObject(response.body());
+                            }
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
