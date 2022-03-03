@@ -12,34 +12,41 @@
         android:layout_height="@dimen/_30sdp"
         android:id="@+id/rivReceiverImage"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/tvReceivedMessage"
+        app:layout_constraintBottom_toBottomOf="@id/receiverMessageContainer"
         android:background="@drawable/image_background"
         app:riv_oval="true"
         android:scaleType="fitXY"/>
 
-    <TextView
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/tvReceivedMessage"
-        android:background="@drawable/background_received_message"
+        android:id="@+id/receiverMessageContainer"
         app:layout_constraintStart_toEndOf="@id/rivReceiverImage"
         app:layout_constraintTop_toTopOf = "parent"
         android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_8sdp"
         app:layout_constraintWidth_percent="0.75"
-        app:layout_constraintWidth_max="wrap"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_13ssp"
-        android:paddingEnd="@dimen/_12sdp"
-        android:paddingStart="@dimen/_12sdp"
-        android:paddingTop="@dimen/_8sdp"
-        android:paddingBottom="@dimen/_8sdp"/>
+        app:layout_constraintWidth_max="wrap">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvReceivedMessage"
+            android:background="@drawable/background_received_message"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13ssp"
+            android:paddingEnd="@dimen/_8sdp"
+            android:paddingStart="@dimen/_12sdp"
+            android:paddingTop="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_8sdp"/>
+    </LinearLayout>
+
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/tvDateTime"
-        app:layout_constraintTop_toBottomOf="@id/tvReceivedMessage"
+        app:layout_constraintTop_toBottomOf="@id/receiverMessageContainer"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="@dimen/_4sdp"
         android:textColor="@color/light_text"
