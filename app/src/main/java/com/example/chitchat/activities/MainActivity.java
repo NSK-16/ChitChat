@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -110,19 +111,22 @@ public class MainActivity extends AvailabilityActivity implements FirebaseAuth.A
             builder.setTitle("Sign Out");
             builder.setMessage("Are you sure you want to sign out?");
             builder.setCancelable(false);
-            builder.setPositiveButton("Yes", (dialogInterface, i) ->{
+            builder.setPositiveButton(Html.fromHtml("<font color='#0096ff'>Yes</font>"), (dialogInterface, i) ->{
 
                 HashMap<String,Object> updates = new HashMap<>();
                 updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
                 db.collection(Constants.KEY_COLLECTION_USERS)
                         .document(mAuth.getCurrentUser().getUid())
                         .update(updates)
-                        .addOnSuccessListener(unused -> mAuth.signOut())
+                        .addOnSuccessListener(unused -> {
+                            db.collection(Constants.KEY_COLLECTION_USERS).document(mAuth.getCurrentUser().getUid()).update(Constants.KEY_AVAILABILITY,0);
+                            mAuth.signOut();
+                        })
                         .addOnFailureListener(e-> Log.d("Sign Out",e.getMessage()));
 
                 bottomSheetDialog.dismiss();
             });
-            builder.setNegativeButton("No",(dialogInterface,i) -> dialogInterface.cancel());
+            builder.setNegativeButton(Html.fromHtml("<font color='#0096ff'>No</font>"),(dialogInterface, i) -> dialogInterface.cancel());
             AlertDialog alert = builder.create();
             alert.show();
         });
