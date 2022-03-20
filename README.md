@@ -11,14 +11,14 @@ It uses **Firebase Cloud Messaging** and **Firestore** for real-time chat implem
 
 ## SCREENSHOTS
 
-  <p align = "middle">
-   <img src="images/SignInActivityScreenshot.jpg" width="195" />
-  <img src="images/SignUpActivityScreenshot.jpg" width="195" />
-  <img src="images/MainActivityScreenshot.jpg" width="195" />
-  <img src="images/SelectUserScreenshot.jpg" width="195" />
-  <img src="images/ChatActivityScreenshot.jpg" width="195" />
-</p>
+<br/>
+<br/>
 
+| Sign In Activity  | Sign Up Activity | Main Activity | Select User | Chat Activity |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| <img src="images/SignInActivityScreenshot.jpg" width="200" />  | <img src="images/SignUpActivityScreenshot.jpg" width="200" />| <img src="images/MainActivityScreenshot.jpg" width="200" />| <img src="images/SelectUserScreenshot.jpg" width="200" />| <img src="images/ChatActivityScreenshot.jpg" width="200" />| 
+
+<br/>
 
 ## WHAT I HAVE LEARNT
 - ***Firebase authentication***
