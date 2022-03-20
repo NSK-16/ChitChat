@@ -8,25 +8,19 @@ import android.view.View;
 
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.example.chitchat.R;
 import com.example.chitchat.adapters.ChatsAdapter;
 import com.example.chitchat.apiUtilities.ApiService;
 import com.example.chitchat.apiUtilities.RetrofitClient;
 import com.example.chitchat.databinding.ActivityChatBinding;
-import com.example.chitchat.databinding.LayoutBottomsheetProfileBinding;
 import com.example.chitchat.models.ChatMessage;
 import com.example.chitchat.models.Users;
 import com.example.chitchat.utilities.Constants;
 import com.example.chitchat.utilities.PreferenceManager;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONArray;
